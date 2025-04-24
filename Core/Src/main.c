@@ -23,7 +23,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "key_driver.h"
+#include "uart_driver.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -55,7 +56,14 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void KEY1_Callback(void)
+{
+  printf("KEY1 pressed\r\n");
+}
+void KEY1_ReleaseCallback(void)
+{
+  printf("KEY1 released\r\n");
+}
 /* USER CODE END 0 */
 
 /**
@@ -89,7 +97,10 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start_IT(&htim2);
+  KEY_Init();
+  UART_Init();
+  KEY_Register(KEY1_GPIO_Port, KEY1_Pin, KEY1_Callback, KEY1_ReleaseCallback);
   /* USER CODE END 2 */
 
   /* Infinite loop */

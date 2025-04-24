@@ -8,6 +8,14 @@
 
 #include "main.h"
 
+/*=======================================*/
+#define KEY1_GPIO_Port GPIOB
+#define KEY1_Pin GPIO_PIN_0
+
+/*=======================================*/
+
+
+
 /**
  * @brief 按键状态枚举
  */

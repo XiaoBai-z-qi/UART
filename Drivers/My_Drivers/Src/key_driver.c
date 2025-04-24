@@ -1,14 +1,28 @@
-/**
- * @file key_driver.c
- * @brief 按键驱动实现文件
- */
-
 #include "key_driver.h"
 
 #define MAX_KEYS 16 // 最大支持的按键数量
 
 static KeyTypedef Keys[MAX_KEYS]; // 按键数组
 static uint8_t key_count = 0;     // 当前注册的按键数量
+
+
+void KEY_Init(void)
+{
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+
+    GPIO_InitStruct.Pin = KEY1_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    HAL_GPIO_Init(KEY1_GPIO_Port, &GPIO_InitStruct);
+
+    // 清空按键数组
+    key_count = 0;
+    // 初始化通常由用户完成，这里只是预留接口
+}
+
+
 
 // 按键动作函数
 static void mark_pressed(KeyTypedef* key) {
@@ -63,17 +77,7 @@ static void key_status_check(KeyTypedef* key)
     }
 }
 
-/**
- * @brief 按键驱动初始化
- * @param htim 定时器句柄
- * @return 无
- */
-void KEY_Init(void)
-{
-    // 清空按键数组
-    key_count = 0;
-    // 初始化通常由用户完成，这里只是预留接口
-}
+
 
 /**
  * @brief 注册一个新按键
